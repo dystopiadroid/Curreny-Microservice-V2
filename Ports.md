@@ -1,0 +1,9 @@
+1) Limits Microservice - 8080, 8081 .....
+2) Spring Cloud Config Server - 8888
+3) Curency Exchange Microservice - 8000, 8001 ....
+4) Curency Conversion Microservice - 8100, 8101 ....
+5) Netflix Eureka Naming Server - 8761
+6) API Gateway - 8765
+7) Zipkin Distributed Tracing Server - 9411
+
+
