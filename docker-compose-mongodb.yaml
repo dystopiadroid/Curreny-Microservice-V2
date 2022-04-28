@@ -7,6 +7,9 @@ services:
       - '27017:27017'
     networks: 
       - mongodb-network
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo-js:ro
+      - ./mongo-volume:/data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=pass

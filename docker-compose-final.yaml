@@ -1,0 +1,91 @@
+version: '3.7'
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    networks: 
+      - currency-network
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo-js:ro
+      - ./mongo-volume:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - '8081:8081'
+    networks: 
+      - currency-network
+    depends_on:
+      - mongo
+    environment:
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=pass
+      - ME_CONFIG_MONGODB_SERVER=mongo
+    restart: unless-stopped
+
+  currency-exchange:
+    image: dystopiadroid/ms-currency-exchange-service:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports: 
+      - "8000:8000"
+    networks:
+      - currency-network
+    depends_on:
+      - naming-server
+      - mongo
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+      SPRING.DATA.MONGODB.HOST: mongo
+
+  currency-conversion:
+    image: dystopiadroid/ms-currency-conversion-service:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports: 
+      - "8100:8100"
+    networks:
+      - currency-network
+    depends_on:
+      - naming-server
+      - currency-exchange
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+
+  api-gateway:
+    image: dystopiadroid/ms-api-gateway:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports: 
+      - "8765:8765"
+    networks:
+      - currency-network
+    depends_on:
+      - naming-server
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+
+  naming-server:
+    image: dystopiadroid/ms-naming-server:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports: 
+      - "8761:8761"
+    networks:
+      - currency-network
+
+  zipkin-server:
+    image: openzipkin/zipkin:latest
+    mem_limit: 400m
+    ports: 
+      - "9411:9411"
+    networks:
+      - currency-network
+
+networks:
+  currency-network:
