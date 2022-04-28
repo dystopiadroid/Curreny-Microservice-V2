@@ -3,10 +3,11 @@ package com.bala.microservices.currencyexchangeservice.bean;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class CurrencyExchange {
 
 	@Id
