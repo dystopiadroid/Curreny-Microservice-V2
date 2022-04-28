@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public class CurrencyConversion{
 
-	private Long id;
+	private String id;
 	private String from;
 	private String to;
 	private BigDecimal conversionMultiple;
@@ -12,7 +12,7 @@ public class CurrencyConversion{
 	private BigDecimal calculatedAmount;
 	private String environment;
 
-	public CurrencyConversion(Long id, String from, String to, BigDecimal conversionMultiple, BigDecimal quantity,
+	public CurrencyConversion(String id, String from, String to, BigDecimal conversionMultiple, BigDecimal quantity,
 			BigDecimal calculatedAmount, String environment) {
 		this.id = id;
 		this.from = from;
@@ -27,10 +27,10 @@ public class CurrencyConversion{
 
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getFrom() {
