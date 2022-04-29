@@ -1,0 +1,21 @@
+[
+	{
+		"_id" : ObjectID(),
+		"from" : "USD",
+		"to" : "INR",
+		"conversionMultiple" : 76
+	},
+	{
+		"_id" : ObjectID(),
+		"from" : "EUR",
+		"to" : "INR",
+		"conversionMultiple" : 80
+	},
+	{
+		"_id" : ObjectID(),
+		"from" : "GBP",
+		"to" : "INR",
+		"conversionMultiple" : 95
+	}
+
+]

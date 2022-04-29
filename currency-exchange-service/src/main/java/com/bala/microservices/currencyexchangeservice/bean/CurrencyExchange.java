@@ -2,20 +2,18 @@ package com.bala.microservices.currencyexchangeservice.bean;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class CurrencyExchange {
 
 	@Id
-	private Long id;
+	private String id;
 
-	@Column(name = "currency_from")
 	private String from;
 
-	@Column(name = "currency_to")
 	private String to;
 
 	private BigDecimal conversionMultiple;
@@ -25,8 +23,7 @@ public class CurrencyExchange {
 
 	}
 
-	public CurrencyExchange(Long id, String from, String to, BigDecimal conversionMultiple) {
-		this.id = id;
+	public CurrencyExchange(String from, String to, BigDecimal conversionMultiple) {
 		this.from = from;
 		this.to = to;
 		this.conversionMultiple = conversionMultiple;
@@ -41,11 +38,11 @@ public class CurrencyExchange {
 	}
 
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
